@@ -16,8 +16,19 @@ function A() {
   return "Function C";
  }
 
-console.log(A());
- B().then(res => {
-  console.log(res);
-  console.log(C());
- });
+async function app() {
+  console.log(A());
+  console.log(await B(true));
+  console.log(C());  
+ }
+ app();
+//console.log(A());
+//B(true)
+// .then(res => console.log(res))
+// .catch(rej => console.log(rej));
+ // Function B OK
+// B(false)
+// .then(res => console.log(res))
+// .catch(rej => console.log(rej));
+
+ //  console.log(C());
