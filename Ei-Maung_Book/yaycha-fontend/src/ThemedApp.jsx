@@ -1,6 +1,7 @@
 import { useState, createContext, useContext, useMemo } from "react";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClientProvider, QueryClient } from "react-query";
 
 import { deepPurple, grey } from "@mui/material/colors";
 
@@ -13,7 +14,7 @@ import Profile from "./pages/Profile";
 import Comments from "./pages/Comments";
 
 const AppContext = createContext();
-
+export const queryClient = new QueryClient();
 export function useApp() {
 	return useContext(AppContext);
 }
@@ -86,7 +87,9 @@ export default function ThemedApp() {
 					mode,
 					setMode,
 				}}>
-				<RouterProvider router={router} />
+				<QueryClientProvider client={queryClient}>
+					<RouterProvider router={router} />
+				</QueryClientProvider>
 				<CssBaseline />
 			</AppContext.Provider>
 		</ThemeProvider>

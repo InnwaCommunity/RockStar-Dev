@@ -38,6 +38,24 @@ router.delete("/comments/:id", async (req, res) => {
   });
   res.sendStatus(204);
 });
+router.get("/posts", async (req, res) => {
+  try {
+    const data = await prisma.post.findMany({
+      include: {
+        user: true,
+        comments: true,
+      },
+      orderBy: { id: "desc" },
+      take: 20,
+    });
+    setTimeout(() => {
+      res.json(data);
+    }, 2000);
+        
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+ });
 // router.get("/posts", async (req, res) => {
 //   try {
 //     const data = await prisma.post.findMany({
