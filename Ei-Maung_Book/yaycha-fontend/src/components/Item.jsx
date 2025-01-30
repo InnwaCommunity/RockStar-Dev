@@ -4,12 +4,15 @@ import { Alarm as TimeIcon, AccountCircle as UserIcon, Delete as DeleteIcon } fr
 import { useNavigate } from "react-router-dom";
 import { green } from "@mui/material/colors";
 
-export default function Item({ item, remove }) {
+export default function Item({ item, remove, primary, comment }) {
     const navigate = useNavigate();
 
     return (
         <Card sx={{ mb: 2 }}>
-            <CardContent onClick={() => navigate(`/comments/${item.id}`)} sx={{ cursor: "pointer" }}>
+            <CardContent onClick={() => {
+                if(comment) return false;
+                navigate(`/comments/${item.id}`);
+            }} sx={{ cursor: "pointer" }}>
                 <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 1 }}>
                         <TimeIcon fontSize="small" color="success" />

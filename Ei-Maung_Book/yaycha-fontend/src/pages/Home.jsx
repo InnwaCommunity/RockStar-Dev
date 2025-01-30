@@ -2,24 +2,42 @@
 import { Alert, Box } from "@mui/material";
 import Form from "../components/Form";
 import Item from "../components/Item";
-import { useApp } from "../ThemedApp";
+// import { useApp } from "../ThemedApp";
+import { useQuery, useMutation } from "react-query";
+import { queryClient } from "../ThemedApp";
 
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
 const api = import.meta.env.VITE_API;
 
 export default function Home() {
-    const { showForm, setGlobalMsg } = useApp();
-    
+    const { showForm, setGlobalMsg } = useQuery();
+
     const { isLoading, isError, error, data } = useQuery("posts",
         async () => {
             const res = await fetch(`${api}/content/posts`);
             return res.json();
-          });
+        });
 
-    const remove = id => {
-        setData(data.filter(item => item.id !== id));
-        setGlobalMsg("An item deleted");
-    };
+    // const remove = id => {
+    //     setData(data.filter(item => item.id !== id));
+    //     setGlobalMsg("An item deleted");
+    // };
+    const remove = useMutation(
+        async id => {
+            await fetch(`${api}/content/posts/${id}`, {
+                method: "DELETE",
+            });
+        },
+        {
+            onMutate: id => {
+                queryClient.cancelQueries("posts");
+                queryClient.setQueryData("posts", old =>
+                    old.filter(item => item.id !== id)
+                );
+                setGlobalMsg("A post deleted");
+            },
+        }
+    );
 
     const add = (content, name) => {
         const id = data.length > 0 ? data[0].id + 1 : 1;
@@ -61,8 +79,8 @@ export default function Home() {
     if (isError) {
         return (
             <Box>
-        <Alert severity="warning">{error.message}</Alert>
-      </Box>
+                <Alert severity="warning">{error.message}</Alert>
+            </Box>
         );
     }
     if (
@@ -73,7 +91,13 @@ export default function Home() {
         <Box>
             {showForm && <Form add={add} />}
             {data.map(item => (
-                <Item key={item.id} item={item} remove={remove} />
+                //<Item key={item.id} item={item} remove={remove} />
+                <Item
+                    key={item.id}
+                    item={item}
+                    remove={remove.
+                        mutate}
+                />
             ))}
         </Box>
     );

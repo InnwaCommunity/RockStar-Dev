@@ -18,3 +18,17 @@ React Query ကို Install ရန်
 to run js api
 
 - npx nodemon index.js
+
+to create react native project
+
+- npx create-expo-app HelloNative
+
+to run react native 
+
+- npx expo
+
+-------
+
+- npm i date-fns
+- npm create vite yaycha-api
+- npm install react-router-dom
