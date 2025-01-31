@@ -32,3 +32,20 @@ to run react native
 - npm i date-fns
 - npm create vite yaycha-api
 - npm install react-router-dom
+
+folder အလွတ်ဆောက်ရန်နှင့် TypeScript သုံးရန်
+
+- npm run reset-project
+
+https://icons.expo.fyi/Index
+
+npm i expo-camera expo-linear-gradient
+
+to install jwt
+
+ npm i jsonwebtoken
+
+.env ဖိုင်က Variable ကိုချိတ်သုံးချင်ရင် dotenv လို့‌‌‌‌ ‌‌‌‌ေခါ်တဲ့နည်းပညာကိုသုံးရပါတယ်။
+to instal dotenv package
+
+- npm i dotenv
